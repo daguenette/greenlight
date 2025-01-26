@@ -33,3 +33,11 @@ your API responses have a sensible and consistent structure.
 - How to create a reusable helper package for validating data to ensure it meets your business rules.
 
 - Different techniques for controlling and customizing how JSON is decoded.
+
+## 4 - Database Setup and Configuration
+
+- How to install and set up PostgreSQL on you local machine
+
+- How to use the psql interactil tool to create databases, PostgreSQL extensions and user accounts.
+
+- How to initialize a database connection pool in Go and configure its settings to improve performance and stability.
