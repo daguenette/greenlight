@@ -11,3 +11,17 @@ All commits will follow each chapter name.
 - Introduce a sensible pattern for managing configuration settings (via command-line flags) and using dependency injection to make dependencies available to our handlers.
 
 - Use the `httprouter` package to help implement a standard RESTful structure for the API endpoints.
+
+## 2 - Sending JSON Responses
+
+- How to send JSON responses from your REST API (including error responses).
+
+- How to encode native Go objects into JSON using the encoding/json package.
+
+- Different techniques for customizing how Go objects are encoded to JSON — first by
+using struct tags, and then by leveraging the json.Marshaler interface.
+
+- How to create a reusable helper for sending JSON responses, which will ensure that all
+your API responses have a sensible and consistent structure.
+
+
