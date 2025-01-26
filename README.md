@@ -24,4 +24,12 @@ using struct tags, and then by leveraging the json.Marshaler interface.
 - How to create a reusable helper for sending JSON responses, which will ensure that all
 your API responses have a sensible and consistent structure.
 
+## 3 - Parsing JSON Requests
 
+- How to read a request body and decode it to a native Go object using the encoding/json package.
+
+- How to deal with bad requests from clients and invalid JSON, and return clear, actionable, error messages.
+
+- How to create a reusable helper package for validating data to ensure it meets your business rules.
+
+- Different techniques for controlling and customizing how JSON is decoded.
