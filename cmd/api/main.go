@@ -35,14 +35,6 @@ func main() {
 	var cfg config
 
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
-	logger.Info("database connection pool established")
-
-	db, err := openDB(cfg)
-	if err != nil {
-		logger.Error(err.Error())
-		os.Exit(1)
-	}
-	defer db.Close()
 
 	app := &application{
 		config: cfg,
@@ -55,10 +47,19 @@ func main() {
 	flag.IntVar(&cfg.port, "port", 4000, "API server port")
 	flag.StringVar(&cfg.env, "env", "development", "Environment (development|staging|production)")
 	flag.StringVar(&cfg.db.dsn, "db-dsn", GREENLIGHT_DB_DS, "PostgreSQL DSN")
-	flag.IntVar(&cfg.db.maxIdleConns, "db-max-open-conns", 25, "PostgreSQL max open connections")
+	flag.IntVar(&cfg.db.maxOpenConns, "db-max-open-conns", 25, "PostgreSQL max open connections")
 	flag.IntVar(&cfg.db.maxIdleConns, "db-max-idle-conns", 25, "PostgreSQL max idle connections")
 	flag.DurationVar(&cfg.db.maxIdleTime, "db-max-idle-time", 15*time.Minute, "PostgreSQL max connection idle time")
 	flag.Parse()
+
+	db, err := openDB(cfg)
+	if err != nil {
+		logger.Error(err.Error())
+		os.Exit(1)
+	}
+	defer db.Close()
+
+	logger.Info("database connection pool established")
 
 	srv := &http.Server{
 		Addr:         fmt.Sprintf(":%d", cfg.port),
