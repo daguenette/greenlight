@@ -41,3 +41,9 @@ your API responses have a sensible and consistent structure.
 - How to use the psql interactil tool to create databases, PostgreSQL extensions and user accounts.
 
 - How to initialize a database connection pool in Go and configure its settings to improve performance and stability.
+
+## 5 - SQL Migrations
+
+- The high-level principles behind SQL migrations and why they are useful.
+
+- How to use the command-line migrate tool to programmatically manage changes to your database schema.
