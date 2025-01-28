@@ -61,3 +61,17 @@ your API responses have a sensible and consistent structure.
 - How to use optimistic concurrency control to avoid race conditions when two clients try to update the same resource at the same time.
 
 - How to use context timeouts to terminate long-running database queries and prevent unnecessary resource use.
+
+## 8 - Filtering, Sorting, and Pagination
+
+- Return the details of multiple resources in a single JSON response.
+
+- Accept and apply optional filter parameters to narrow down the returned data set.
+
+- Implement full-text search on your database fields using PostgreSQL’s inbuilt
+functionality.
+
+- Accept and safely apply sort parameters to change the order of results in the data set.
+
+- Develop a pragmatic, reusable, pattern to support pagination on large data sets, and
+return pagination metadata in your JSON responses.
