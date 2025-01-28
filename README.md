@@ -53,3 +53,11 @@ your API responses have a sensible and consistent structure.
 - How to create a database model which isolates all the logic for executing SQL queries against your database.
 
 - How to implement the four basic CRUD (create, read, update and delete) operations on a specific resource in the context of an API.
+
+## 7 - Advanced CRUD Operations
+
+- How to support partial updates to a resource (so that the client only needs to send the data that they want to change).
+
+- How to use optimistic concurrency control to avoid race conditions when two clients try to update the same resource at the same time.
+
+- How to use context timeouts to terminate long-running database queries and prevent unnecessary resource use.
