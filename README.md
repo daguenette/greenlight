@@ -47,3 +47,9 @@ your API responses have a sensible and consistent structure.
 - The high-level principles behind SQL migrations and why they are useful.
 
 - How to use the command-line migrate tool to programmatically manage changes to your database schema.
+
+## 6 - CRUD Operations
+
+- How to create a database model which isolates all the logic for executing SQL queries against your database.
+
+- How to implement the four basic CRUD (create, read, update and delete) operations on a specific resource in the context of an API.

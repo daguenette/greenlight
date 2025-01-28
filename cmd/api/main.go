@@ -5,30 +5,39 @@ import (
 	"database/sql"
 	"flag"
 	"fmt"
+	"log"
 	"log/slog"
 	"net/http"
 	"os"
 	"time"
 
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
+	"greenlight.daguenette.net/internal/data"
 )
 
 const version = "1.0.0"
 
+// Package main is the entry point for the Greenlight API service.
+// It handles configuration, database connection, and server setup.
+
+// config holds all the configuration settings for our application
 type config struct {
-	port int
-	env  string
+	port int    // Port to run the server on
+	env  string // Current environment (development/staging/production)
 	db   struct {
-		dsn          string
-		maxOpenConns int
-		maxIdleConns int
-		maxIdleTime  time.Duration
+		dsn          string        // Database connection string
+		maxOpenConns int           // Maximum number of active db connections
+		maxIdleConns int           // Maximum number of idle db connections
+		maxIdleTime  time.Duration // Maximum time a connection can be idle
 	}
 }
 
+// application holds all the dependencies for our HTTP handlers
 type application struct {
-	config config
-	logger *slog.Logger
+	config config       // Application configuration settings
+	logger *slog.Logger // Structured logging
+	models data.Models  // Database models
 }
 
 func main() {
@@ -36,12 +45,7 @@ func main() {
 
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
 
-	app := &application{
-		config: cfg,
-		logger: logger,
-	}
-
-	app.loadEnv()
+	loadEnv()
 	GREENLIGHT_DB_DS := os.Getenv("GREENLIGHT_DB_DS")
 
 	flag.IntVar(&cfg.port, "port", 4000, "API server port")
@@ -61,6 +65,12 @@ func main() {
 
 	logger.Info("database connection pool established")
 
+	app := &application{
+		config: cfg,
+		logger: logger,
+		models: data.NewModels(db),
+	}
+
 	srv := &http.Server{
 		Addr:         fmt.Sprintf(":%d", cfg.port),
 		Handler:      app.routes(),
@@ -77,6 +87,7 @@ func main() {
 	os.Exit(1)
 }
 
+// openDB creates a sql.DB connection pool using the provided configuration
 func openDB(cfg config) (*sql.DB, error) {
 	db, err := sql.Open("postgres", cfg.db.dsn)
 	if err != nil {
@@ -97,4 +108,12 @@ func openDB(cfg config) (*sql.DB, error) {
 	}
 
 	return db, nil
+}
+
+// loadEnv loads environment variables from .env file
+func loadEnv() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 }

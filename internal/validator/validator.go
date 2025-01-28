@@ -1,5 +1,7 @@
 package validator
 
+// Package validator provides custom validation logic for the application
+
 import (
 	"regexp"
 	"slices"
@@ -9,18 +11,19 @@ var (
 	EmailRX = regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
 )
 
+// Validator contains a map of validation errors
 type Validator struct {
 	Errors map[string]string
 }
 
-// New is a helper which creates a new Validator instance with an empty erros map.
+// New creates a new Validator instance
 func New() *Validator {
 	return &Validator{
 		Errors: make(map[string]string),
 	}
 }
 
-// Valid returns true if the erros map doesn't contain eny entries
+// Valid returns true if there are no validation errors
 func (v *Validator) Valid() bool {
 	return len(v.Errors) == 0
 }
@@ -32,7 +35,7 @@ func (v *Validator) AddError(key, message string) {
 	}
 }
 
-// Check adds an error message to the map only if a validation check is not "ok".
+// Check performs a validation check and adds an error if the check fails
 func (v *Validator) Check(ok bool, key, message string) {
 	if !ok {
 		v.AddError(key, message)
@@ -49,7 +52,7 @@ func Matches(value string, rx *regexp.Regexp) bool {
 	return rx.MatchString(value)
 }
 
-// Generic function which returns true if all values in a slice are unique.
+// Unique checks if all values in a slice are unique
 func Unique[T comparable](values []T) bool {
 	uniqueValues := make(map[T]bool)
 

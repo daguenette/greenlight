@@ -5,17 +5,16 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"strconv"
 	"strings"
 
-	"github.com/joho/godotenv"
 	"github.com/julienschmidt/httprouter"
 )
 
 type envelope map[string]any
 
+// readIDParam extracts and validates an ID parameter from the request URL
 func (app *application) readIDParam(r *http.Request) (int64, error) {
 
 	params := httprouter.ParamsFromContext(r.Context())
@@ -28,6 +27,7 @@ func (app *application) readIDParam(r *http.Request) (int64, error) {
 	return id, nil
 }
 
+// writeJSON writes JSON response with the provided status code and headers
 func (app *application) writeJSON(w http.ResponseWriter, status int, data envelope, headers http.Header) error {
 	js, err := json.Marshal(data)
 	if err != nil {
@@ -47,6 +47,8 @@ func (app *application) writeJSON(w http.ResponseWriter, status int, data envelo
 	return nil
 }
 
+// readJSON decodes a JSON request body into the provided destination
+// It includes sophisticated error handling for various JSON-related errors
 func (app *application) readJSON(w http.ResponseWriter, r *http.Request, dst any) error {
 
 	maxBytes := 1_048_576
@@ -98,11 +100,4 @@ func (app *application) readJSON(w http.ResponseWriter, r *http.Request, dst any
 	}
 
 	return nil
-}
-
-func (app *application) loadEnv() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
 }

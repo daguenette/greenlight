@@ -5,6 +5,7 @@ import (
 	"net/http"
 )
 
+// logError logs the error details with the request method and URI
 func (app *application) logError(r *http.Request, err error) {
 	var (
 		method = r.Method
@@ -14,6 +15,7 @@ func (app *application) logError(r *http.Request, err error) {
 	app.logger.Error(err.Error(), "method", method, "uri", uri)
 }
 
+// errorResponse sends a JSON-formatted error response to the client
 func (app *application) errorResponse(w http.ResponseWriter, r *http.Request, status int, message any) {
 	env := envelope{"error": message}
 
@@ -24,6 +26,7 @@ func (app *application) errorResponse(w http.ResponseWriter, r *http.Request, st
 	}
 }
 
+// Various error response helpers for different HTTP error scenarios
 func (app *application) serverErrorResponse(w http.ResponseWriter, r *http.Request, err error) {
 	app.logError(r, err)
 
